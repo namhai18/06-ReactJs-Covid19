@@ -9,12 +9,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 	
   	
 	
-## What comes with this Boilerplate?	
+## What comes with this git?	
 	
   	
 	
-The React Essentials Boilerplate features a few of the most common and necessary libs to create a modern and expandable React App:	
-	
+The React Essentials features a few of the most common and necessary libs to create a modern and expandable React App:	
   	
 	
 ### [React](https://reactjs.org/)	
