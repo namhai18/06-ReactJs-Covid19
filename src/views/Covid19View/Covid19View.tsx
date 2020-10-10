@@ -1,4 +1,4 @@
-import { Container, createStyles, FormControl, InputLabel, makeStyles, MenuItem, Select, Theme } from "@material-ui/core";
+import { Container, createStyles, FormControl, InputLabel, makeStyles, MenuItem, Select, Theme, Grid, Paper, GridSpacing } from "@material-ui/core";
 import React, { useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import * as action from "../../redux/Covid19View/action";
@@ -17,6 +17,12 @@ const useStyles = makeStyles((theme: Theme) =>
         selectEmpty: {
             marginTop: theme.spacing(2),
         },
+        control: {
+            padding: theme.spacing(1),
+        },
+        root: {
+            flexGrow: 1,
+        },
     }),
 );
 
@@ -26,13 +32,13 @@ function Covid19View(props: Props) {
 
     // Region state -->
     const [country, setCountry] = React.useState('');
-    const [infectedConfirm, setInfectedConfirm] = React.useState('N/A');
+    const [infectedConfirmGroup1, setInfectedConfirmGroup1] = React.useState('N/A');
     const [deaths, setDeaths] = React.useState('N/A');
     // Region state <--
 
     // Region use -->
     useEffect(() => {
-        if (localStorage.getItem('key')) {
+        if (localStorage.getItem('Covidkey')) {
             props.getAllCovidSummary();
         } else {
             // window.location.href = "/";
@@ -47,20 +53,19 @@ function Covid19View(props: Props) {
     // Region action on screen -->
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         setCountry(event.target.value as string);
-        debugger;
         let indexCountry = props.infectedList.findIndex((item: any) => {
             return item.Country === event.target.value;
         });
         if (indexCountry !== -1) {
-            setInfectedConfirm(props.infectedList[indexCountry].TotalConfirmed);
+            setInfectedConfirmGroup1(props.infectedList[indexCountry].TotalConfirmed);
             setDeaths(props.infectedList[indexCountry].TotalDeaths);
         } else {
-            setInfectedConfirm('N/A');
+            setInfectedConfirmGroup1('N/A');
             setDeaths('N/A');
         }
     };
 
-    const drawEmailTypeSelect = () => {
+    const drawEmailTypeSelectGroup1 = () => {
 
         if (props.infectedList && props.infectedList.length > 0) {
             return props.infectedList.map((v: any, index: any) => {
@@ -73,36 +78,33 @@ function Covid19View(props: Props) {
 
     // Region main-render html -->
     return (
-        (localStorage.getItem('key')) ?
+        (localStorage.getItem('Covidkey')) ?
             <Container maxWidth="sm">
                 <p></p>
                 <p></p>
-                <div>Covid19 infected count by country view.</div>
-                <FormControl variant="outlined" className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-outlined-label">Country</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-outlined-label"
-                        name="type"
-                        id="type"
-                        label="Country"
-                        value={country}
-                        //   error={state.type_error}
-                        required
-                        //onBlur={(event) => validatorInput(event, "type")}
-                        //onChange={(event) => validatorInput(event, "type")}
-                        onChange={handleChange}
-                    //   inputProps={{ readOnly: props.readOnly }}
-                    //   className={props.className}
-                    //   disabled={props.disabled}
-                    >
-                        <MenuItem value="   ">
-                            <em>  </em>
-                        </MenuItem>
-                        {drawEmailTypeSelect()}
-                    </Select>
-                </FormControl>
-                <p>Total infected confirm : {infectedConfirm}</p>
-                <p>Total deaths : {deaths}</p>
+                <h3>Covid19 infected count by country view.</h3>
+
+                <Paper className={classes.control}>
+                    <FormControl variant="outlined" className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-outlined-label">Country</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-outlined-label"
+                            name="type"
+                            id="type"
+                            label="Country"
+                            value={country}
+                            required
+                            onChange={handleChange}
+                        >
+                            <MenuItem value="   ">
+                                <em>  </em>
+                            </MenuItem>
+                            {drawEmailTypeSelectGroup1()}
+                        </Select>
+                        <p>Total infected confirm : {infectedConfirmGroup1}</p>
+                        <p>Total deaths : {deaths}</p>
+                    </FormControl>
+                </Paper>
             </Container> :
             <div><h3>Error 404 : Permission deny</h3></div>
     )

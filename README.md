@@ -81,15 +81,9 @@ The React Essentials Boilerplate features a few of the most common and necessary
 	
 "First, make sure you've got the latest stable releases for Node.js and NPM."	
 	
-Login username : test1@covid19api.com	
-Login password : 123456789	
-	
-	
-	
-	
-	
-	
-  	
+Login username : abcd	
+Login password : 1234
+
 	
 Create your own repo with these commands:	
 ```	
@@ -160,20 +154,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 	
   	
 	
-"**Note: this is a one-way operation. Once you `eject`, you canÅft go back!**"	
-	
-  	
-	
-"If you arenÅft satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project."	
-	
-  	
-	
-"Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point youÅfre on your own."	
-	
-  	
-	
-"You donÅft have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldnÅft feel obligated to use this feature. However we understand that this tool wouldnÅft be useful if you couldnÅft customize it when you are ready for it."	
-	
+"**Note: this is a one-way operation. Once you `eject`, you can't go back!**"		
   	
 	
 ## Learn More	

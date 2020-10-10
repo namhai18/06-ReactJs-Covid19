@@ -12,7 +12,7 @@ const useStyles1 = makeStyles((theme: Theme) =>
         root: {
             '& .MuiTextField-root': {
                 margin: theme.spacing(2),
-                width: 200,
+                width: 400,
             },
         },
     }),
@@ -77,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
         // color: '#6798e5',
         animationDuration: '550ms',
     },
+
 }));
 
 
@@ -92,7 +93,7 @@ function Login(props: Props) {
 
     useEffect(() => {
         console.log("useEffect");
-        localStorage.removeItem('key');
+        localStorage.removeItem('Covidkey');
     },
         []
     )
@@ -102,20 +103,28 @@ function Login(props: Props) {
 
     function validate() {
         // If backend have login api then check userName and passWord with database .
-        if ((userName == 'test1@covid19api.com') && (passWord == '123456789')) {
+        if ((userName == 'abcd') && (passWord == '1234')) {
             return true;
-        } else if ((userName != 'test1@covid19api.com') && (passWord != '123456789')) {
+            // Compare with data in jwt token from backend- check username first , password after
+        } else if ((userName != 'abcd')) {
             setStatusErrorUserName(true);
-            setStatusErrorTextUserName('Please input correct UserName');
+            if (userName == '') {
+                setStatusErrorTextUserName('Please input Username');
+            } else {
+                setStatusErrorTextUserName('Please input correct Username');
+            }
+            return false;
+            // Compare with data in jwt token from backend
+        } else if (passWord != '1234') {
             setStatusErrorPassWord(true);
-            setStatusErrorTextPassWord('Please input correct PassWord');
+            if (passWord == '') {
+                setStatusErrorTextPassWord('Please input Password');
+            } else {
+                setStatusErrorTextPassWord('Please input correct Password');
+            }
             return false;
         }
         else {
-            setStatusErrorUserName(true);
-            setStatusErrorTextUserName('Please input UserName');
-            setStatusErrorPassWord(true);
-            setStatusErrorTextPassWord('Please input PassWord');
             return false;
         }
     }
@@ -126,10 +135,10 @@ function Login(props: Props) {
             await props.getLogin();
             // After success login collect key from jwt token and store to localStorage to authorization user
             let localTokenKey: any;
-            if ((localStorage.getItem('key')) == null) {
+            if ((localStorage.getItem('Covidkey')) == null) {
                 localTokenKey = ''
             } else {
-                localTokenKey = (localStorage.getItem('key'))
+                localTokenKey = (localStorage.getItem('Covidkey'))
             }
             if (localTokenKey != '') {
                 window.location.href = "/covid19View";
@@ -142,8 +151,9 @@ function Login(props: Props) {
 
         if (name == "username") {
             if (value == '') {
+                setUserName('');
                 setStatusErrorUserName(true);
-                setStatusErrorTextUserName('Please input UserName');
+                setStatusErrorTextUserName('Please input Username');
             } else {
                 setUserName(value);
                 setStatusErrorUserName(false);
@@ -152,6 +162,7 @@ function Login(props: Props) {
         }
         if (name == "password") {
             if (value == '') {
+                setPassWord('');
                 setStatusErrorPassWord(true);
                 setStatusErrorTextPassWord('Please input Password');
             } else {
@@ -160,48 +171,9 @@ function Login(props: Props) {
                 setStatusErrorTextPassWord('');
             }
         }
-        // if (value.length > 64) {
-        //     if (value.length == 65) {
-        //         setEditPriorityCellValue(value);
-        //     }
-        //     setStatusError(true);
-        //     setStatusErrorText('最大64文字まで入力できます。');
-        // }
-
-        // if ((value.length <= 64) && (value.length > 0)) {
-        //     setEditPriorityCellValue(value);
-        //     setStatusError(false);
-        //     setStatusErrorText('');
-        // }
 
     };
 
-    function submitLoginForm(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-        props.getLogin();
-        // let object: any;
-        let localTokenKey: any;
-        if ((localStorage.getItem('key')) == null) {
-            localTokenKey = ''
-        } else {
-            localTokenKey = (localStorage.getItem('key'))
-        }
-        if (localTokenKey != '') {
-            window.location.href = "/covid19View";
-        }
-        // window.location.href = "/covid19View";
-        // if (Validate()) {
-        //     setIsLoading(true);
-        //     apiPost(Constants.loginUrl, loginForm, () => console.log("Login error!")).then((res: any) => {
-        //         if (res && res.data && res.code === 200 && res.message !== 'ログインできませんでした') {
-        //             processLoginData(res);
-        //         } else {
-        //             setIsLoading(false);
-        //             showSnackBarAlert(30000, "error", MESSAGE.ERROR_LOGIN_FAILED);
-        //         }
-        //     });
-        // }
-    }
 
     return (
 
@@ -220,11 +192,13 @@ function Login(props: Props) {
                             variant="outlined"
                             name={'username'}
                             onChange={handleChange}
+                            value={userName}
                         />
                     </Grid>
 
                     <Grid item md={12} xs='auto'>
                         <TextField
+                            type="password"
                             error={statusErrorPassWord}
                             id="outlined-error-helper-text"
                             label="Password"
@@ -233,6 +207,7 @@ function Login(props: Props) {
                             variant="outlined"
                             name={'password'}
                             onChange={handleChange}
+                            value={passWord}
                         />
                     </Grid>
                     <input
@@ -268,8 +243,8 @@ function Login(props: Props) {
 // }
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        getLogin: async () => {
-            await dispatch(action.actGetLogin());
+        getLogin: async (userName : any) => {
+            await dispatch(action.actGetLogin(userName));
         },
     }
 }

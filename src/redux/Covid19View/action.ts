@@ -4,18 +4,12 @@ import Axios from 'axios';
 export function actGetAllCovidSummary(): any {
     return async (dispatch: any) => {
         let infectedList: any;
-        debugger;
+
         await Axios({
             method: 'GET',
             url: 'https://api.covid19api.com/summary',
-            headers: { 'X-Access-Token': localStorage.getItem('key') },
-            // data: {
-            //     objTeam: recordItem, // This is the body part
-            // }
-            // params
-            // params: { projectId: projectId },
+            headers: { 'X-Access-Token': localStorage.getItem('Covidkey') },
         }).then((rs) => {
-            debugger;
             infectedList = rs.data.Countries;
         });
 
@@ -26,7 +20,7 @@ export function actGetAllCovidSummary(): any {
     }
 }
 
-export function actGetLogin(): any {
+export function actGetLogin(userName: any): any {
     return async (dispatch: any) => {
 
         await Axios({
@@ -42,7 +36,7 @@ export function actGetLogin(): any {
             },
         }).then((rs) => {
 
-            localStorage.setItem('key', JSON.stringify(rs.data.Key));
+            localStorage.setItem('Covidkey', JSON.stringify(rs.data.Key));
             console.log(rs.data.Key);
         });
 
