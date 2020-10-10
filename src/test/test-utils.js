@@ -3,7 +3,7 @@ import { render as rtlRender } from '@testing-library/react'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 // Import your own reducer
-import reducer from '../src/redux/store/store'
+import reducer from '../redux/store/store'
 
 function render(
     ui,

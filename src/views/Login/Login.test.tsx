@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import Login from './Login';
-import { render, fireEvent, screen } from '../../../test/test-utils';
+import { render, fireEvent, screen } from '../../test/test-utils';
 
 it('Renders component Login', () => {
     render(<Login />)

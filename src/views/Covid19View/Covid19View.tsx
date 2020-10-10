@@ -38,6 +38,7 @@ function Covid19View(props: Props) {
 
     // Region use -->
     useEffect(() => {
+
         if (localStorage.getItem('Covidkey')) {
             props.getAllCovidSummary();
         } else {
